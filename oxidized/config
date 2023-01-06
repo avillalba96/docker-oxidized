@@ -1,0 +1,66 @@
+---
+resolve_dns: true
+interval: 600
+use_syslog: false
+debug: false
+threads: 30
+timeout: 20
+retries: 3
+prompt: !ruby/regexp /^([\w.@-]+[#>]\s?)$/
+rest: 0.0.0.0:8888
+next_adds_job: false
+vars: {}
+groups: {}
+models: {}
+pid: "/home/oxidized/.config/oxidized/pid"
+log: "/home/oxidized/.config/oxidized/log"
+
+crash:
+  directory: "/home/oxidized/.config/oxidized/crashes"
+  hostnames: false
+
+stats:
+  history_size: 10
+
+input:
+  default: ssh, telnet
+  debug: false
+  ssh:
+    secure: false
+  ftp:
+    passive: true
+  utf8_encoded: true
+
+output:
+  default: git
+  git:
+    user: Example
+    email: email@example.com
+    repo: "/home/oxidized/.config/oxidized/configs/default.git"
+  file:
+    directory: "/home/oxidized/.config/oxidized/configs/file/"
+
+source:
+  default: csv
+  csv:
+    file: "/home/oxidized/.config/oxidized/router.db"
+    delimiter: !ruby/regexp /:/
+    map:
+      name: 0
+      ip: 1
+      model: 2
+      username: 3
+      password: 4
+      group: 6
+    gpg: false
+    vars_map:
+      ssh_port: 5
+
+model_map:
+  juniper: junos
+  cisco: ios
+
+models:
+  fortios:
+    vars:
+      remove_secret: true

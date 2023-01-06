@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  oxidized:
+    image: oxidized/oxidized:latest
+    restart: unless-stopped
+    hostname: oxidized
+    container_name: oxidized
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+    ports:
+      - 8888:8888/tcp
+    environment:
+      CONFIG_RELOAD_INTERVAL: 600
+    volumes:
+       - ./oxidized/config:/home/oxidized/.config/oxidized/config
+       - ./oxidized/router.db:/home/oxidized/.config/oxidized/router.db
+       - ./oxidized/configs/:/home/oxidized/.config/oxidized/configs/
+       - ./oxidized/id_rsa:/home/oxidized/.ssh/id_rsa:ro
+#       - ./oxidized/model:/home/oxidized/.config/oxidized/model
+#       - ./oxidized/data:/home/oxidized/.config/oxidized/backupcfg/
